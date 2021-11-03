@@ -155,7 +155,6 @@ function getPosition(e) {
 
 function addEntity(entity, data) {
     world[entity] = data;
-    drawNextFrame(); // (but should we?)
     fetch(
         `http://${host}/entity/${entity}`,
         {
@@ -287,18 +286,17 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
                           'radius':10});
 });
 
-async function update() {
+function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
     //TODO: Only get world when necessary
-    console.log("Updating world");
     fetch(`http://${host}/world`).then( (response) => {
         var json_data = response.json()
-        console.log('Recieved Response')
 
         return json_data
     }).then((json) => {
-        world = json.space
+        newworld = json
     })
+    drawNextFrame();
     drawFrame();
 }
 

@@ -105,7 +105,7 @@ def update(entity):
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return json.dumps(myWorld.__dict__)
+    return json.dumps(myWorld.__dict__['space'])
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
@@ -117,7 +117,8 @@ def get_entity(entity):
 def clear():
     '''Clear the world out!'''
     myWorld.clear()
-    return response.Response(response=HTTPStatus.NO_CONTENT)
+    myWorld.clear_listeners()
+    return json.dumps(myWorld.__dict__)
 
 @app.route("/listener/<id>", methods=['PUT'])
 def add_listener(id):

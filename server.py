@@ -118,7 +118,7 @@ def clear():
     '''Clear the world out!'''
     myWorld.clear()
     myWorld.clear_listeners()
-    return json.dumps(myWorld.__dict__)
+    return json.dumps(myWorld.__dict__['space'])
 
 @app.route("/listener/<id>", methods=['PUT'])
 def add_listener(id):

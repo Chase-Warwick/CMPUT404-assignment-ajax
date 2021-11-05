@@ -48,6 +48,7 @@ class World:
 
     def set(self, entity, data):
         self.space[entity] = data
+        self.notify_listeners(entity, data)
 
     def clear(self):
         self.space = dict()
@@ -64,6 +65,9 @@ class World:
     
     def get_listener(self, listener_name):
         return self.listeners[listener_name]
+    
+    def clear_listener(self, id):
+        self.listeners[id] = {}
     
     def clear_listeners(self):
         self.listeners = {}
@@ -124,6 +128,12 @@ def clear():
 def add_listener(id):
     myWorld.add_listener(id)
     return response.Response(response=HTTPStatus.NO_CONTENT)
+
+@app.route("/listener/<id>", methods=["GET"])
+def get_listener(id):
+    data = myWorld.get_listener(id)
+    myWorld.clear_listener(id)
+    return flask.jsonify(data)
 
 if __name__ == "__main__":
     app.run()

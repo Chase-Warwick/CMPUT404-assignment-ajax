@@ -282,15 +282,21 @@ mouse.mousedraggers.push(function(x,y,clicked,e) {
 function update() {
     //XXX: TODO Get the world from the webservice using a XMLHTTPRequest
     //TODO: Only get world when necessary
-    fetch(`http://${host}/world`).then( (response) => {
+    fetch(`http://${host}/listener/${id}`).then( (response) => {
         var json_data = response.json()
-
         return json_data
     }).then((json) => {
-        world = json
+        console.log(json)
+        updateWorldWith(json)
     })
     drawNextFrame();
     drawFrame();
+}
+
+function updateWorldWith(json) {
+    for (let key in json) {
+        world[key] = json[key]
+    }
 }
 
 // 30 frames per second

@@ -67,9 +67,21 @@ async function registerClientAsListener() {
         `http://${host}/listener/${id}`,
         {
             method: 'PUT'
-        })
+        }
+    );
 
     console.log(`Listener Registered with response code: ${response.status}`)
+
+    fetch(
+        `http://${host}/world`,
+        {
+            method: "GET"
+        }
+    ).then( (response) => {
+        return response.json();
+    }).then( (json) => {
+        world = json;
+    })
 }
 
 registerClientAsListener();
@@ -162,7 +174,7 @@ function addEntity(entity, data) {
 var counter = 0;
 function addEntityWithoutName(data) {
     //var name = "X"+Math.floor((Math.random()*100)+1);
-    var entity_num = (counter++)%360;
+    var entity_num = (counter++)%720;
     var name = `${id}${entity_num}`;
     data.colour = `hsl(${entity_num}, 100%, 50%)`;
     data.radius = 4;
@@ -286,7 +298,6 @@ function update() {
         var json_data = response.json()
         return json_data
     }).then((json) => {
-        console.log(json)
         updateWorldWith(json)
     })
     drawNextFrame();
